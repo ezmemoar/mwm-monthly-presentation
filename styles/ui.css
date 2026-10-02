@@ -1,0 +1,533 @@
+/* ---------------------------------------------------------------------------
+   Reusable surface primitives shared by the slide components.
+
+   The deck has one signature shape: the mihrab arch. Every photograph wears it,
+   every institution mark sits under it, and the cover draws it in brass over
+   the Haram. Everything else stays quiet so that shape carries the identity.
+   --------------------------------------------------------------------------- */
+/*
+ * Deliberately unlayered: Slidev's UnoCSS reset is unlayered too, and any rule
+ * inside `@layer` loses to it (`img { height: auto }` would beat a layered
+ * `height: 1.5rem`). `styles/index.ts` loads this before Tailwind's utilities so
+ * utility classes still win where the two overlap.
+ */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Brass hairline used to open a section. */
+.gold-rule {
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-gold) 0%, rgb(210 162 76 / 12%) 100%);
+}
+
+/* -- chips --------------------------------------------------------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chip--primary {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+.chip--outline-dark {
+  border: 1px solid rgb(210 162 76 / 45%);
+  color: var(--color-gold-200);
+}
+
+.chip--outline-light {
+  border: 1px solid rgb(210 162 76 / 60%);
+  color: var(--color-gold-700);
+}
+
+.chip__dot {
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 9999px;
+  background: currentcolor;
+}
+
+/* -- hairline rules ------------------------------------------------------ */
+.hairline-dark {
+  border-top: 1px solid rgb(255 255 255 / 14%);
+}
+
+.hairline-light {
+  border-top: 1px solid var(--color-line);
+}
+
+/* -- cards (still used by the gallery note and the upgrade tiles) --------- */
+.card {
+  border-radius: 0.9rem;
+}
+
+.card--dark {
+  border: 1px solid rgb(255 255 255 / 12%);
+  background: rgb(255 255 255 / 4.5%);
+}
+
+.card--light {
+  border: 1px solid var(--color-line);
+  background: #fff;
+}
+
+/* -- the arch: photographs are cut to it, brass traces it ----------------- */
+.arch {
+  position: relative;
+}
+
+.arch__img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50% 50% 0.75rem 0.75rem / 34% 34% 0 0;
+  object-fit: cover;
+}
+
+.arch__ring {
+  position: absolute;
+  inset: -0.7rem;
+  z-index: 0;
+  border: 1px solid rgb(210 162 76 / 65%);
+  border-radius: 50% 50% 1rem 1rem / 34% 34% 0 0;
+}
+
+.arch__glow {
+  position: absolute;
+  inset: -2.5rem;
+  z-index: 0;
+  background: radial-gradient(
+    58% 58% at 50% 40%,
+    color-mix(in oklab, var(--color-primary) 42%, transparent),
+    transparent 72%
+  );
+  filter: blur(12px);
+}
+
+/* -- plate: brochure artwork, which must never be cropped ---------------- */
+.plate {
+  position: relative;
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  padding: 0.55rem;
+  border: 1px solid rgb(210 162 76 / 55%);
+  border-radius: 0.35rem;
+  background: linear-gradient(160deg, rgb(210 162 76 / 16%), rgb(210 162 76 / 4%));
+}
+
+.plate__img {
+  display: block;
+  width: auto;
+  height: 100%;
+  border-radius: 0.15rem;
+  background: #fff;
+  box-shadow: 0 24px 48px -20px rgb(13 6 17 / 65%);
+  object-fit: contain;
+}
+
+/* -- institution marks --------------------------------------------------- */
+.logo-plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: 50% 50% 0.5rem 0.5rem / 22% 22% 0 0;
+  background: #fff;
+}
+
+.logo-plate--dark {
+  border-color: rgb(210 162 76 / 30%);
+  background: rgb(255 255 255 / 92%);
+}
+
+.logo-plate__img {
+  display: block;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Falls back to a set monogram when an institution publishes no mark. */
+.logo-plate__mark {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--color-primary);
+}
+
+/* -- stats --------------------------------------------------------------- */
+.stat-card {
+  position: relative;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--color-gold);
+}
+
+.stat-card__value {
+  font-family: var(--font-display);
+  font-size: 2.3rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* -- office rail: two stops on one line ---------------------------------- */
+.rail {
+  position: relative;
+  padding-top: 1.9rem;
+}
+
+.rail::before {
+  content: '';
+  position: absolute;
+  top: 0.42rem;
+  right: 10%;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-gold), rgb(210 162 76 / 15%));
+}
+
+.rail-stop {
+  position: relative;
+}
+
+.rail-stop::before {
+  content: '';
+  position: absolute;
+  top: -1.72rem;
+  left: 0;
+  width: 0.62rem;
+  height: 0.62rem;
+  border: 2px solid var(--color-gold);
+  border-radius: 9999px;
+  background: var(--color-ink);
+}
+
+.rail-stop--filled::before {
+  background: var(--color-gold);
+}
+
+/* -- package spec strip -------------------------------------------------- */
+.spec {
+  padding: 0.55rem 0.7rem 0.55rem 0;
+  border-top: 1px solid rgb(210 162 76 / 45%);
+}
+
+.spec__icon {
+  font-size: 0.92rem;
+  color: var(--color-gold);
+}
+
+.spec__label {
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
+.spec__value {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+/* -- package feature rows ------------------------------------------------ */
+.pkg-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.28rem 0;
+}
+
+.pkg-item__icon {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  font-size: 0.9rem;
+  color: var(--color-gold);
+}
+
+.pkg-item--light .pkg-item__icon {
+  color: var(--color-gold-600);
+}
+
+/* -- benefits: manifesto rows, no containers ----------------------------- */
+.manifest {
+  display: grid;
+  grid-template-columns: 2.2rem 16rem 1fr;
+  align-items: start;
+  gap: 0 1.8rem;
+  padding: 1.45rem 0;
+  border-top: 1px solid rgb(210 162 76 / 40%);
+}
+
+.manifest:last-child {
+  border-bottom: 1px solid rgb(210 162 76 / 40%);
+}
+
+.manifest__step {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgb(210 162 76 / 75%);
+}
+
+.manifest__headline {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--color-gold-200);
+}
+
+/* -- bento gallery ------------------------------------------------------- */
+.bento {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 12.1rem 12.1rem;
+  grid-template-rows: repeat(2, 12.1rem);
+  gap: 0.8rem;
+}
+
+/* the tall image on the left */
+.bento-tile--feature {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.bento-tile {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(210 162 76 / 25%);
+  border-radius: 0.5rem;
+}
+
+.bento-tile--arch {
+  border-radius: 50% 50% 0.5rem 0.5rem / 26% 26% 0 0;
+}
+
+.bento-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: saturate(1.02) contrast(1.03);
+  object-fit: cover;
+}
+
+.bento-tile__caption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 0.55rem 0.75rem;
+  background: linear-gradient(0deg, rgb(13 6 17 / 82%), transparent);
+  font-size: 0.66rem;
+  color: #fff;
+}
+
+.bento-note {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  border: 1px solid rgb(210 162 76 / 45%);
+  border-radius: 0.5rem;
+  background: linear-gradient(150deg, var(--color-primary-700), var(--color-ink));
+  color: var(--color-gold-200);
+}
+
+/* -- contact pills ------------------------------------------------------- */
+.contact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid rgb(210 162 76 / 45%);
+  border-radius: 9999px;
+  background: rgb(13 6 17 / 45%);
+  font-size: 0.82rem;
+  color: #fff;
+}
+
+.contact-pill__icon {
+  color: var(--color-gold-300);
+}
+
+/* ---------------------------------------------------------------------------
+   Monthly report (`laporan-*.md`) — same palette, a few extra shapes.
+   --------------------------------------------------------------------------- */
+
+/* -- status pill: settled / still moving / not yet ------------------------ */
+.status {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status__dot {
+  width: 0.36rem;
+  height: 0.36rem;
+  border-radius: 9999px;
+  background: currentcolor;
+}
+
+.status--done {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+.status--progress {
+  border-color: rgb(210 162 76 / 55%);
+  color: var(--color-gold-200);
+}
+
+.status--progress .status__dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px currentcolor;
+}
+
+.status--idle {
+  border-color: rgb(255 255 255 / 22%);
+  color: rgb(255 255 255 / 70%);
+}
+
+.status--idle .status__dot {
+  width: 0.5rem;
+  height: 1.5px;
+}
+
+.status--light.status--progress {
+  border-color: rgb(210 162 76 / 70%);
+  color: var(--color-gold-700);
+}
+
+.status--light.status--idle {
+  border-color: var(--color-line);
+  color: var(--color-ink-600);
+}
+
+/* -- ads scorecard: two findings and the result -------------------------- */
+.ad-point__icon {
+  font-size: 1.6rem;
+  color: var(--color-primary);
+}
+
+.result-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  border: 1px solid rgb(210 162 76 / 45%);
+  border-radius: 0.9rem;
+  background: linear-gradient(150deg, var(--color-primary-700), var(--color-ink));
+  color: #fff;
+}
+
+
+.result-tile__value {
+  margin: 0.6rem 0 0.9rem;
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--color-gold-200);
+}
+
+/* -- flyer stand-in: a package without printed artwork yet ---------------- */
+.flyer-standin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  padding: 1.5rem;
+  border-radius: 0.15rem;
+  background: linear-gradient(160deg, var(--color-primary-500), var(--color-primary-800) 70%, var(--color-ink));
+  box-shadow: 0 24px 48px -20px rgb(13 6 17 / 65%);
+  color: #fff;
+}
+
+.flyer-standin .ornament {
+  opacity: 0.14;
+}
+
+/* -- referral steps: nodes hung off one vertical brass line --------------- */
+.steps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 1.2rem;
+  bottom: 1.2rem;
+  left: 1.2rem;
+  width: 1px;
+  background: linear-gradient(180deg, var(--color-gold), rgb(210 162 76 / 15%));
+}
+
+.steps__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  align-items: start;
+  gap: 1.2rem;
+}
+
+.steps__node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid var(--color-gold);
+  border-radius: 9999px;
+  background: var(--color-ink);
+  font-size: 1.05rem;
+  color: var(--color-gold-300);
+}
+
+/* -- agenda: the report's contents ---------------------------------------- */
+.agenda__item {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-top: 1px solid rgb(210 162 76 / 40%);
+}
+
+.agenda__item:last-child {
+  border-bottom: 1px solid rgb(210 162 76 / 40%);
+}

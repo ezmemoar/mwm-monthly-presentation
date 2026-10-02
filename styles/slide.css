@@ -1,0 +1,279 @@
+/* ---------------------------------------------------------------------------
+   Slide shell: the dark/light canvas, the photographic backdrop, the mihrab
+   arch motif and the persistent deck chrome (top bar, progress rail, dots).
+   --------------------------------------------------------------------------- */
+/*
+ * Deliberately unlayered: Slidev's UnoCSS reset is unlayered too, and any rule
+ * inside `@layer` loses to it (`img { height: auto }` would beat a layered
+ * `height: 1.5rem`). `styles/index.ts` loads this before Tailwind's utilities so
+ * utility classes still win where the two overlap.
+ */
+
+/* Slidev's own hover toolbar (fullscreen / prev / next / overview / download)
+ * is the only child of `#slide-container` besides the slide itself. The deck is
+ * presented, not driven, so it is hidden in both the app and the export. */
+#slide-container > *:not(#slide-content) {
+  display: none !important;
+}
+
+.deck-slide {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* top padding clears the fixed brand bar */
+  padding: 4.5rem 4rem 2.5rem;
+  font-family: var(--font-body);
+}
+
+.deck-slide--dark {
+  background: var(--color-ink);
+  color: #fff;
+}
+
+.deck-slide--light {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.deck-inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1152px;
+  margin: 0 auto;
+}
+
+/* -- khatim ornament ------------------------------------------------------
+   Two squares at 45° to each other: the eight-point star that tiles the walls
+   of the Haram. It is the deck's only texture, kept at the edge of visible. */
+.ornament {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%23d2a24c' stroke-width='1.1'%3E%3Crect x='24' y='24' width='48' height='48'/%3E%3Crect x='24' y='24' width='48' height='48' transform='rotate(45 48 48)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 96px 96px;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.deck-slide--light .ornament {
+  opacity: 0.08;
+}
+
+.ornament--fade {
+  mask-image: linear-gradient(200deg, #000 0%, transparent 62%);
+}
+
+/* -- photographic backdrop (dark slides) --------------------------------- */
+.photo-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.photo-backdrop__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(70%) contrast(1.1) brightness(0.55);
+}
+
+.photo-backdrop__tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    155deg,
+    rgb(13 6 17 / 62%) 0%,
+    rgb(99 18 139 / 48%) 58%,
+    rgb(13 6 17 / 60%) 100%
+  );
+}
+
+.photo-backdrop__fade-top {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(13 6 17 / 80%) 0%, transparent 38%);
+}
+
+.photo-backdrop__fade-bottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, var(--color-ink) 0%, transparent 46%);
+}
+
+/* -- the portal: a full-height arch drawn in brass over the cover photo --- */
+.portal {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 2;
+  width: 41rem;
+  height: 33rem;
+  border: 1px solid rgb(210 162 76 / 55%);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0 / 42% 42% 0 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.portal::before {
+  content: '';
+  position: absolute;
+  inset: 0.9rem 0.9rem 0;
+  border: 1px solid rgb(210 162 76 / 22%);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0 / 42% 42% 0 0;
+}
+
+/* -- oversized slide numeral --------------------------------------------- */
+.bignum {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5.5rem;
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-gold);
+  opacity: 0.35;
+}
+
+.deck-slide--light .bignum {
+  -webkit-text-stroke-color: var(--color-gold-600);
+  opacity: 0.3;
+}
+
+/* -- deck chrome --------------------------------------------------------- */
+.deck-topbar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.75rem;
+  pointer-events: none;
+}
+
+.deck-topbar > * {
+  pointer-events: auto;
+}
+
+.brand-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.75rem 0.4rem 0.45rem;
+  border: 1px solid rgb(210 162 76 / 45%);
+  border-radius: 0.75rem;
+  background: #fff;
+  box-shadow: 0 8px 20px -12px rgb(0 0 0 / 45%);
+}
+
+.brand-chip__logo {
+  display: block;
+  width: auto;
+  height: 1.5rem;
+}
+
+.brand-chip__name {
+  font-family: var(--font-body);
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--color-ink);
+}
+
+.slide-counter {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid rgb(210 162 76 / 40%);
+  border-radius: 9999px;
+  background: rgb(210 162 76 / 12%);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  color: var(--color-gold-200);
+}
+
+.slide-counter--light {
+  border-color: rgb(210 162 76 / 55%);
+  background: rgb(210 162 76 / 10%);
+  color: var(--color-gold-700);
+}
+
+.deck-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-gold));
+  transition: width 0.4s ease;
+}
+
+.nav-dots {
+  position: absolute;
+  top: 50%;
+  right: 1.1rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  transform: translateY(-50%);
+}
+
+.nav-dots__dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border: none;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 28%);
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.nav-dots__dot--light {
+  background: rgb(13 6 17 / 16%);
+}
+
+.nav-dots__dot--active {
+  height: 1.4rem;
+  background: var(--color-gold);
+}
+
+.nav-dots__dot--active.nav-dots__dot--light {
+  background: var(--color-gold-600);
+}
+
+/* -- entrance animation driven by the `v-reveal` directive ------------------ */
+@keyframes deck-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.is-revealing {
+  opacity: 0;
+}
+
+.is-revealed {
+  animation: deck-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-revealed {
+    animation: none;
+  }
+}

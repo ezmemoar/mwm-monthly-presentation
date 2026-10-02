@@ -1,0 +1,57 @@
+/* ---------------------------------------------------------------------------
+   Tailwind CSS v4 entry.
+
+   Preflight is deliberately NOT imported: Slidev already ships the UnoCSS
+   Tailwind reset, and loading a second reset fights with the theme's own base
+   styles. We only pull in the design tokens and the utilities.
+
+   Utilities stay unlayered — Slidev's own CSS is unlayered, so anything we put
+   in an `@layer` would silently lose to it. `styles/index.ts` therefore loads
+   this file last, letting source order give utilities the final say.
+   --------------------------------------------------------------------------- */
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css';
+
+@source '../slides.md';
+@source '../pages/**/*.md';
+@source '../layouts/**/*.vue';
+@source '../components/**/*.vue';
+@source '../*.vue';
+@source '../data/**/*.ts';
+
+@theme {
+  /* ---- brand ------------------------------------------------------------ */
+  --color-primary: #63128b;
+  --color-primary-50: #faf3fd;
+  --color-primary-100: #f1e1f7;
+  --color-primary-200: #e3c4ef;
+  --color-primary-300: #b45fd1;
+  --color-primary-400: #9738be;
+  --color-primary-500: #7e1faa;
+  --color-primary-600: #6f189a;
+  --color-primary-700: #4a0e68;
+  --color-primary-800: #370a4d;
+  --color-primary-900: #250635;
+
+  /* ---- brass: the second voice, reserved for value and emphasis --------- */
+  --color-gold-100: #f8ecd2;
+  --color-gold-200: #f0d9a8;
+  --color-gold-300: #e5c17b;
+  --color-gold: #d2a24c;
+  --color-gold-600: #b0812f;
+  --color-gold-700: #7c5a1f;
+
+  /* ---- neutrals: plum-cast, so ink and paper belong to the same family --- */
+  --color-ink: #0d0611;
+  --color-ink-800: #170c1e;
+  --color-ink-700: #241430;
+  --color-ink-600: #4a3b52;
+
+  --color-paper: #fbfafc;
+  --color-paper-100: #f3f0f6;
+  --color-line: #e7e2ec;
+
+  /* ---- type ------------------------------------------------------------- */
+  --font-display: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-body: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+}
