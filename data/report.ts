@@ -69,8 +69,8 @@ export const adPoints: AdPoint[] = [
     icon: 'i-heroicons-chat-bubble-left-right',
     label: 'Kendala',
     tone: 'progress',
-    title: 'Banyak yang tidak membalas',
-    body: 'Sebagian besar hanya chat sekali, lalu tidak merespons lagi. Kebanyakan terindikasi spam.',
+    title: 'Banyak yang hanya sebatas bertanya',
+    body: 'Belum ada kepastian dari mereka. Sudah di follow up dan diajak untuk berkunjung ke kantor tapi sepertinya masih sebatas ingin tanya-tanya dulu.',
   },
 ]
 
@@ -78,7 +78,7 @@ export const adPoints: AdPoint[] = [
 export const adResult = {
   label: 'Hasil iklan September',
   value: 'Leads mulai mengalir',
-  note: 'Langkah berikutnya adalah memilah dan menindaklanjuti leads yang serius sampai mendaftar.',
+  note: 'Langkah berikutnya adalah memilah dan menindaklanjuti leads yang serius sampai mendaftar, sambil melatih meta ads agar terus menyesuaikan preferensi customer dengan yang kita inginkan.',
 }
 
 export interface Step {
