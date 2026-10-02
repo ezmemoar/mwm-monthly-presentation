@@ -78,7 +78,7 @@ export const adPoints: AdPoint[] = [
 export const adResult = {
   label: 'Hasil iklan September',
   value: 'Leads mulai mengalir',
-  note: 'Langkah berikutnya adalah memilah dan menindaklanjuti leads yang serius sampai mendaftar, sambil melatih meta ads agar terus menyesuaikan preferensi customer dengan yang kita inginkan.',
+  note: 'Langkah berikutnya adalah memilah dan menindaklanjuti leads yang serius sampai mendaftar.',
 }
 
 export interface Step {
